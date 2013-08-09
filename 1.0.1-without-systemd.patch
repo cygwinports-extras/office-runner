@@ -1,0 +1,21 @@
+Enclosed code only inhibits sleep/hibernation on closing of laptop lid,
+and requires systemd-logind.
+
+--- origsrc/office-runner-1.0.1/src/office-runner.c	2013-01-18 09:31:18.000000000 -0600
++++ src/office-runner-1.0.1/src/office-runner.c	2013-08-08 19:54:39.265308900 -0500
+@@ -184,6 +184,7 @@ static void
+ set_running_settings (OfficeRunner *run,
+ 		      gboolean      running)
+ {
++#ifdef __linux__
+ 	if (running) {
+ 		GVariant *ret;
+ 		GUnixFDList *fd_list;
+@@ -219,6 +220,7 @@ set_running_settings (OfficeRunner *run,
+ 		close (run->lid_switch_fd);
+ 		run->lid_switch_fd = -1;
+ 	}
++#endif
+ }
+ 
+ static gboolean
